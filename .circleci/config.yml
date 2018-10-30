@@ -46,7 +46,7 @@ jobs:
             - ./.firebaserc
             - ./firebase.json
 
-  test:
+  test_html:
     <<: *defaults
     docker:
       - image: circleci/ruby:2.4.2
@@ -60,7 +60,40 @@ jobs:
             - rubygems-v1-fallback
       - run:
           name: Test
-          command: bundle exec rake test_ci
+          command: bundle exec rake test_html
+
+  test_files:
+    <<: *defaults
+    docker:
+      - image: circleci/ruby:2.4.2
+    environment:
+      BUNDLE_PATH: ~/repo/vendor/bundle
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - rubygems-v1-{{ checksum "Gemfile.lock" }}
+            - rubygems-v1-fallback
+      - run:
+          name: Test
+          command: bundle exec rake test_files
+
+  test_posts:
+    <<: *defaults
+    docker:
+      - image: circleci/ruby:2.4.2
+    environment:
+      BUNDLE_PATH: ~/repo/vendor/bundle
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - rubygems-v1-{{ checksum "Gemfile.lock" }}
+            - rubygems-v1-fallback
+      - run:
+          name: Test
+          command: bundle exec rake test_posts
+
 
   # deploy_firebase:
   #   docker:
@@ -122,7 +155,13 @@ workflows:
       - build:
           requires:
             - dependencies
-      - test:
+      - test_html:
+          requires:
+            - build
+      - test_files:
+          requires:
+            - build
+      - test_posts:
           requires:
             - build
       # - deploy_firebase:
