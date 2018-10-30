@@ -110,8 +110,8 @@ workflows:
     jobs:
       - build
       - test:
-        requires:
-          - build
+          requires:
+            - build
       # - deploy_firebase:
       #     requires:
       #       - deploy_aws
