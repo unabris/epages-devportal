@@ -4,7 +4,7 @@ defaults: &defaults
   working_directory: ~/repo
 
 jobs:
-  build_test:
+  build:
     <<: *defaults
     docker:
       - image: circleci/ruby:2.4.2
@@ -36,75 +36,86 @@ jobs:
             - ./.firebaserc
             - ./firebase.json
 
-  deploy_firebase:
-    docker:
-      - image: circleci/node:6.10.3
-    steps:
-      - attach_workspace:
-          at: ./
-      - run:
-          name: Install Firebase tools
-          command: npm install --save-dev firebase-tools
-
-      - run:
-          name: Deploy to Firebase
-          command: ./node_modules/.bin/firebase deploy --token=$FIREBASE_TOKEN --non-interactive
-
-  deploy_aws:
+  test:
     <<: *defaults
-    environment:
-      S3_BUCKET_NAME: staging.developer.epages.com
     docker:
-      - image: circleci/python:3.6.3
+      - image: circleci/ruby:2.4.2
+    environment:
+      BUNDLE_PATH: ~/repo/vendor/bundle
     steps:
-      - attach_workspace:
-          at: ./
+      - checkout
+      - restore_cache:
+          keys:
+            - rubygems-v1-{{ checksum "Gemfile.lock" }}
+            - rubygems-v1-fallback
       - run:
-          name: Install AWS CLI
-          command: pip install awscli --upgrade --user
-      - run:
-          name: Download epages-docs
-          command: |
-            ~/.local/bin/aws s3 sync s3://$S3_BUCKET_NAME ./_site --exclude "about/*" \
-                                                                  --exclude "api/*" \
-                                                                  --exclude "beyond-essence/*" \
-                                                                  --exclude "blog/*" \
-                                                                  --exclude "devjobs/*" \
-                                                                  --exclude "api/*" \
-                                                                  --exclude "assets/css/*" \
-                                                                  --exclude "assets/fonts/*" \
-                                                                  --exclude "assets/img/*" \
-                                                                  --exclude "assets/js/*" \
-                                                                  --exclude "assets/slick/*" \
-                                                                  --exclude "404.html" \
-                                                                  --exclude "index.html"
-      - run:
-          name: Deploy to S3
-          command: ~/.local/bin/aws s3 sync ./_site s3://$S3_BUCKET_NAME/ --size-only --delete --acl public-read
+          name: Test
+          command: bundle exec rake test_ci
 
-      - persist_to_workspace:
-          root: ./
-          paths:
-            - ./_site
-            - ./.firebaserc
-            - ./firebase.json
+  # deploy_firebase:
+  #   docker:
+  #     - image: circleci/node:6.10.3
+  #   steps:
+  #     - attach_workspace:
+  #         at: ./
+  #     - run:
+  #         name: Install Firebase tools
+  #         command: npm install --save-dev firebase-tools
+  #     - run:
+  #         name: Deploy to Firebase
+  #         command: ./node_modules/.bin/firebase deploy --token=$FIREBASE_TOKEN --non-interactive
+  #
+  # deploy_aws:
+  #   <<: *defaults
+  #   environment:
+  #     S3_BUCKET_NAME: staging.developer.epages.com
+  #   docker:
+  #     - image: circleci/python:3.6.3
+  #   steps:
+  #     - attach_workspace:
+  #         at: ./
+  #     - run:
+  #         name: Install AWS CLI
+  #         command: pip install awscli --upgrade --user
+  #     - run:
+  #         name: Download epages-docs
+  #         command: |
+  #           ~/.local/bin/aws s3 sync s3://$S3_BUCKET_NAME ./_site --exclude "about/*" \
+  #                                                                 --exclude "api/*" \
+  #                                                                 --exclude "beyond-essence/*" \
+  #                                                                 --exclude "blog/*" \
+  #                                                                 --exclude "devjobs/*" \
+  #                                                                 --exclude "api/*" \
+  #                                                                 --exclude "assets/css/*" \
+  #                                                                 --exclude "assets/fonts/*" \
+  #                                                                 --exclude "assets/img/*" \
+  #                                                                 --exclude "assets/js/*" \
+  #                                                                 --exclude "assets/slick/*" \
+  #                                                                 --exclude "404.html" \
+  #                                                                 --exclude "index.html"
+  #     - run:
+  #         name: Deploy to S3
+  #         command: ~/.local/bin/aws s3 sync ./_site s3://$S3_BUCKET_NAME/ --size-only --delete --acl public-read
+  #
+  #     - persist_to_workspace:
+  #         root: ./
+  #         paths:
+  #           - ./_site
+  #           - ./.firebaserc
+  #           - ./firebase.json
 
 workflows:
   version: 2
   build_test_deploy:
     jobs:
-      - build_test
-      - deploy_firebase:
-          requires:
-            - deploy_aws
-          filters:
-            branches:
-              only: master
-      - deploy_aws:
-          requires:
-            - build_test
-          filters:
-            branches:
-              only:
-                - develop
-                - master
+      - build
+      - test
+        requires:
+          - build
+      # - deploy_firebase:
+      #     requires:
+      #       - deploy_aws
+      #     filters:
+      #       branches:
+      #         only: master
+      #
