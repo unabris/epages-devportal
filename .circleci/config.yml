@@ -81,7 +81,7 @@ jobs:
   download_docs:
     <<: *ruby_defaults
     environment:
-      CIRCLE_REPOSITORY_URL: epages-docs
+      CIRCLE_REPOSITORY_URL: git@github.com:ePages-de/epages-docs.git
     steps:
       - checkout
       - run: ls -lash
