@@ -84,6 +84,9 @@ jobs:
       - checkout
       - run: git clone git@github.com:ePages-de/epages-docs.git
       - run: cd epages-docs
+      - run: bundle install
+      - run: bundle exec jekyll build
+      - run: bundle exec rake test
 
 
   # deploy_firebase:
