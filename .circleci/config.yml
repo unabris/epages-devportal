@@ -81,11 +81,12 @@ jobs:
   download_docs:
     <<: *ruby_defaults
     steps:
-      - run: git clone git@github.com:ePages-de/epages-docs.git -b master -q
-      - run: cd epages-docs
-      - run: bundle install
-      - run: bundle exec jekyll build
-      - run: bundle exec rake test
+      - run: ls -lash
+      # - run: git clone git@github.com:ePages-de/epages-docs.git -b master -q
+      # - run: cd epages-docs
+      # - run: bundle install
+      # - run: bundle exec jekyll build
+      # - run: bundle exec rake test
 
 
   # deploy_firebase:
