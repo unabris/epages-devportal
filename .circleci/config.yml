@@ -124,7 +124,7 @@ jobs:
           then
             git fetch --force origin "refs/tags/${CIRCLE_TAG}"
           else
-            git fetch --force origin "staging:remotes/origin/staging"
+            git fetch --force origin "master:remotes/origin/master"
           fi
 
 
