@@ -81,7 +81,7 @@ jobs:
   download_docs:
     <<: *ruby_defaults
     steps:
-      - add_ssh_keys
+      - checkout
       - run: git clone git@github.com:ePages-de/epages-docs.git
       - run: cd epages-docs
 
@@ -160,6 +160,9 @@ workflows:
             - test_html
             - test_files
             - test_posts
+          filters:
+            branches:
+              only: staging
       # - deploy_firebase:
       #     requires:
       #       - deploy_aws
