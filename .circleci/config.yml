@@ -132,10 +132,10 @@ jobs:
           then
             git reset --hard "$CIRCLE_SHA1"
             git checkout -q "$CIRCLE_TAG"
-          elif [ -n "$CIRCLE_BRANCH" ]
+          elif [ -n "master" ]
           then
             git reset --hard "$CIRCLE_SHA1"
-            git checkout -q -B "$CIRCLE_BRANCH"
+            git checkout -q -B "master"
           fi
 
           git reset --hard "$CIRCLE_SHA1"
