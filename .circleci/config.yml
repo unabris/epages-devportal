@@ -81,7 +81,7 @@ jobs:
   download_docs:
     <<: *ruby_defaults
     steps:
-      - run: git clone -b master git@github.com:ePages-de/epages-docs.git
+      - run: git clone git@github.com:ePages-de/epages-docs.git -b master -q
       - run: cd epages-docs
       - run: bundle install
       - run: bundle exec jekyll build
