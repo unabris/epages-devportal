@@ -83,7 +83,7 @@ jobs:
     steps:
       - add_ssh_keys:
           fingerprints:
-            - "16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48"
+            - 33:7c:c1:a0:03:39:80:f3:f9:25:9d:7b:3a:16:d6:9e
       - run: git clone -b master git@github.com:ePages-de/epages-docs.git
       - run: cd epages-docs
       - run: bundle install
