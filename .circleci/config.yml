@@ -82,11 +82,7 @@ jobs:
     <<: *ruby_defaults
     steps:
       - run: mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
-      - run: git clone git@github.com:ePages-de/epages-docs.git -b master && cd epages-docs
-      - run: ls -lash
-      - run: bundle install
-      - run: bundle exec jekyll build
-      - run: bundle exec rake test
+      - run: git clone git@github.com:ePages-de/epages-docs.git -b master && cd epages-docs && bundle install
 
 
   # deploy_firebase:
