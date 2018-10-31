@@ -83,6 +83,8 @@ jobs:
     steps:
       - checkout
       - run: git clone -b master git@github.com:ePages-de/epages-docs.git ../my-app
+      - run: ls -lash
+      - run: ls -lash ../
       - run: pwd
       - run: cd epages-docs
       - run: bundle install
