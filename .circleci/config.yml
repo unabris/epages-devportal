@@ -146,19 +146,19 @@ workflows:
   version: 2
   build_test_deploy:
     jobs:
-      - dependencies
-      - build:
-          requires:
-            - dependencies
-      - test_html:
-          requires:
-            - build
-      - test_files:
-          requires:
-            - build
-      - test_posts:
-          requires:
-            - build
+      # - dependencies
+      # - build:
+      #     requires:
+      #       - dependencies
+      # - test_html:
+      #     requires:
+      #       - build
+      # - test_files:
+      #     requires:
+      #       - build
+      # - test_posts:
+      #     requires:
+      #       - build
       - download_docs:
           requires:
             - test_html
