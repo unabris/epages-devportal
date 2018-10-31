@@ -81,7 +81,7 @@ jobs:
   download_docs:
     <<: *ruby_defaults
     steps:
-      - checkout
+      - run: mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
       - run: pwd
       - run: ls -lash
       # - run: git clone git@github.com:ePages-de/epages-docs.git -b master -q
