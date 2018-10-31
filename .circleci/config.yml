@@ -82,7 +82,8 @@ jobs:
     <<: *ruby_defaults
     steps:
       - checkout
-      - run: git clone git@github.com:ePages-de/epages-docs.git
+      - run: git clone -b master git@github.com:ePages-de/epages-docs.git ../my-app
+      - run: pwd
       - run: cd epages-docs
       - run: bundle install
       - run: bundle exec jekyll build
