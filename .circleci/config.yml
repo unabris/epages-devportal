@@ -81,6 +81,7 @@ jobs:
   download_docs:
     <<: *ruby_defaults
     steps:
+      - checkout
       - run: ls -lash
       # - run: git clone git@github.com:ePages-de/epages-docs.git -b master -q
       # - run: cd epages-docs
