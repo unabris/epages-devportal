@@ -146,24 +146,6 @@ workflows:
   version: 2
   build_test_deploy:
     jobs:
-      - download_docs:
-          requires:
-            - test_html
-            - test_files
-            - test_posts
-          filters:
-            branches:
-              only: staging
-      # - deploy_firebase:
-      #     requires:
-      #       - deploy_aws
-      #     filters:
-      #       branches:
-      #         only: master
-      #
-
-
-
       # - dependencies
       # - build:
       #     requires:
@@ -177,3 +159,18 @@ workflows:
       # - test_posts:
       #     requires:
       #       - build
+      - download_docs:
+          # requires:
+          #   - test_html
+          #   - test_files
+          #   - test_posts
+          filters:
+            branches:
+              only: staging
+      # - deploy_firebase:
+      #     requires:
+      #       - deploy_aws
+      #     filters:
+      #       branches:
+      #         only: master
+      #
