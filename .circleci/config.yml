@@ -86,7 +86,7 @@ jobs:
       - run: ls -lash
       - run: git clone git@github.com:ePages-de/epages-docs.git -b master
       - run: ls -lash
-      - run: cd epages-docs
+      - run: cd ~/repo/epages-docs
       - run: ls -lash
       - run: bundle install
       - run: bundle exec jekyll build
