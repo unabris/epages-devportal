@@ -209,7 +209,7 @@ workflows:
           filters:
             branches:
               only: staging
-      - build_test_devportal:
+      - build_test_devportal
           # requires:
           #   - test_html
           #   - test_files
