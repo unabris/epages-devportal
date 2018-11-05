@@ -153,7 +153,8 @@ jobs:
     steps:
       - attach_workspace:
           at: ./
-      - run: ls -lash
+      - run: ls -lash _devportal
+      - run: ls -lash _docs
 
   # deploy_firebase:
   #   docker:
