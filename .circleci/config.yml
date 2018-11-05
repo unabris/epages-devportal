@@ -149,7 +149,7 @@ jobs:
             - ./_docs
 
   combine_projets:
-    <<: *ruby_defaults
+    <<: *devportal_defaults
     steps:
       - attach_workspace:
           at: ./
