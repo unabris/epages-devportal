@@ -82,6 +82,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ./
+      - run: sudo apt-get -y install rsync
       - run: rsync -abviuzP _docs/ _site/
       - run: ls -lash _site
       - run: ls -lash _site/assets
@@ -92,7 +93,6 @@ jobs:
     steps:
       - attach_workspace:
           at: ./
-      - run: sudo apt-get -y install rsync
       - run:
           name: Install Firebase tools
           command: npm install --save-dev firebase-tools
