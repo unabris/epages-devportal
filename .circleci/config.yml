@@ -85,7 +85,29 @@ jobs:
   #         name: Test
   #         command: bundle exec rake test_posts
 
-  download_docs:
+  build_test_devportal:
+    <<: *devportal_defaults
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - devportal-rubygems-v1-{{ checksum "Gemfile.lock" }}
+            - devportal-rubygems-v1-fallback
+      - run:
+          name: Bundle Install
+          command: bundle install
+      - run:
+          name: Jekyll build
+          command: bundle exec jekyll build
+      - run:
+          name: Test
+          command: bundle exec rake test_ci
+      - save_cache:
+          key: devportal-rubygems-v1-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+
+  build_test_docs:
     <<: *docs_defaults
     steps:
       - run: mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
@@ -179,7 +201,7 @@ workflows:
       # - test_posts:
       #     requires:
       #       - build
-      - download_docs:
+      - build_test_docs:
           # requires:
           #   - test_html
           #   - test_files
@@ -187,6 +209,14 @@ workflows:
           filters:
             branches:
               only: staging
+        - build_test_devportal:
+            # requires:
+            #   - test_html
+            #   - test_files
+            #   - test_posts
+            filters:
+              branches:
+                only: staging
       # - deploy_firebase:
       #     requires:
       #       - deploy_aws
