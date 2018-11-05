@@ -148,6 +148,12 @@ jobs:
           paths:
             - ./_docs
 
+  combine_projets:
+    <<: *ruby_defaults
+    steps:
+      - attach_workspace:
+          at: ./
+      - run: ls -lash
 
   # deploy_firebase:
   #   docker:
@@ -205,6 +211,18 @@ workflows:
   version: 2
   build_test_deploy:
     jobs:
+      - build_test_devportal
+      - build_test_docs:
+          filters:
+            branches:
+              only: staging
+      - combine_projets:
+          requires:
+            - build_test_devportal
+            - build_test_docs
+          filters:
+            branches:
+              only: staging
       # - dependencies
       # - build:
       #     requires:
@@ -218,15 +236,8 @@ workflows:
       # - test_posts:
       #     requires:
       #       - build
-      - build_test_docs:
-          # requires:
-          #   - test_html
-          #   - test_files
-          #   - test_posts
-          filters:
-            branches:
-              only: staging
-      - build_test_devportal
+
+
           # requires:
           #   - test_html
           #   - test_files
