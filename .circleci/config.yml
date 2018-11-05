@@ -77,6 +77,8 @@ jobs:
 
   combine_projets:
     working_directory: ~/repo
+    docker:
+      - image: circleci/buildpack-deps:18.10
     steps:
       - attach_workspace:
           at: ./
@@ -151,29 +153,3 @@ workflows:
           filters:
             branches:
               only: staging
-      # - dependencies
-      # - build:
-      #     requires:
-      #       - dependencies
-      # - test_html:
-      #     requires:
-      #       - build
-      # - test_files:
-      #     requires:
-      #       - build
-      # - test_posts:
-      #     requires:
-      #       - build
-
-
-          # requires:
-          #   - test_html
-          #   - test_files
-          #   - test_posts
-      # - deploy_firebase:
-      #     requires:
-      #       - deploy_aws
-      #     filters:
-      #       branches:
-      #         only: master
-      #
