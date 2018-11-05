@@ -15,75 +15,75 @@ docs_defaults: &docs_defaults
     BUNDLE_PATH: ~/repo/vendor/bundle
 
 jobs:
-  dependencies:
-    <<: *ruby_defaults
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - rubygems-v1-{{ checksum "Gemfile.lock" }}
-            - rubygems-v1-fallback
-      - run:
-          name: Bundle Install
-          command: bundle install
-      - save_cache:
-          key: rubygems-v1-{{ checksum "Gemfile.lock" }}
-          paths:
-            - vendor/bundle
-
-  build:
-    <<: *ruby_defaults
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - rubygems-v1-{{ checksum "Gemfile.lock" }}
-            - rubygems-v1-fallback
-      - run:
-          name: Jekyll build
-          command: bundle exec jekyll build
-      - persist_to_workspace:
-          root: ./
-          paths:
-            - ./_site
-            - ./.firebaserc
-            - ./firebase.json
-
-  test_html:
-    <<: *ruby_defaults
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - rubygems-v1-{{ checksum "Gemfile.lock" }}
-            - rubygems-v1-fallback
-      - run:
-          name: Test
-          command: bundle exec rake test_html
-
-  test_files:
-    <<: *ruby_defaults
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - rubygems-v1-{{ checksum "Gemfile.lock" }}
-            - rubygems-v1-fallback
-      - run:
-          name: Test
-          command: bundle exec rake test_files
-
-  test_posts:
-    <<: *ruby_defaults
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - rubygems-v1-{{ checksum "Gemfile.lock" }}
-            - rubygems-v1-fallback
-      - run:
-          name: Test
-          command: bundle exec rake test_posts
+  # dependencies:
+  #   <<: *ruby_defaults
+  #   steps:
+  #     - checkout
+  #     - restore_cache:
+  #         keys:
+  #           - rubygems-v1-{{ checksum "Gemfile.lock" }}
+  #           - rubygems-v1-fallback
+  #     - run:
+  #         name: Bundle Install
+  #         command: bundle install
+  #     - save_cache:
+  #         key: rubygems-v1-{{ checksum "Gemfile.lock" }}
+  #         paths:
+  #           - vendor/bundle
+  #
+  # build:
+  #   <<: *ruby_defaults
+  #   steps:
+  #     - checkout
+  #     - restore_cache:
+  #         keys:
+  #           - rubygems-v1-{{ checksum "Gemfile.lock" }}
+  #           - rubygems-v1-fallback
+  #     - run:
+  #         name: Jekyll build
+  #         command: bundle exec jekyll build
+  #     - persist_to_workspace:
+  #         root: ./
+  #         paths:
+  #           - ./_site
+  #           - ./.firebaserc
+  #           - ./firebase.json
+  #
+  # test_html:
+  #   <<: *ruby_defaults
+  #   steps:
+  #     - checkout
+  #     - restore_cache:
+  #         keys:
+  #           - rubygems-v1-{{ checksum "Gemfile.lock" }}
+  #           - rubygems-v1-fallback
+  #     - run:
+  #         name: Test
+  #         command: bundle exec rake test_html
+  #
+  # test_files:
+  #   <<: *ruby_defaults
+  #   steps:
+  #     - checkout
+  #     - restore_cache:
+  #         keys:
+  #           - rubygems-v1-{{ checksum "Gemfile.lock" }}
+  #           - rubygems-v1-fallback
+  #     - run:
+  #         name: Test
+  #         command: bundle exec rake test_files
+  #
+  # test_posts:
+  #   <<: *ruby_defaults
+  #   steps:
+  #     - checkout
+  #     - restore_cache:
+  #         keys:
+  #           - rubygems-v1-{{ checksum "Gemfile.lock" }}
+  #           - rubygems-v1-fallback
+  #     - run:
+  #         name: Test
+  #         command: bundle exec rake test_posts
 
   download_docs:
     <<: *docs_defaults
