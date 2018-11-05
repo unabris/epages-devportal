@@ -214,9 +214,6 @@ workflows:
           #   - test_html
           #   - test_files
           #   - test_posts
-          filters:
-            branches:
-              only: staging
       # - deploy_firebase:
       #     requires:
       #       - deploy_aws
