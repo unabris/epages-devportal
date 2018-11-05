@@ -96,16 +96,25 @@ jobs:
       - run:
           name: Bundle Install
           command: bundle install
+      - save_cache:
+          key: devportal-rubygems-v1-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
       - run:
           name: Jekyll build
           command: bundle exec jekyll build
       - run:
           name: Test
           command: bundle exec rake test_ci
-      - save_cache:
-          key: devportal-rubygems-v1-{{ checksum "Gemfile.lock" }}
+      - run:
+          name: Update folder name
+          command: mv _site _devportal
+      - persist_to_workspace:
+          root: ./
           paths:
-            - vendor/bundle
+            - ./_devportal
+            - ./.firebaserc
+            - ./firebase.json
 
   build_test_docs:
     <<: *docs_defaults
@@ -121,16 +130,24 @@ jobs:
       - run:
           name: Bundle Install
           command: bundle install
+      - save_cache:
+          key: docs-rubygems-v1-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
       - run:
           name: Jekyll build
           command: bundle exec jekyll build
       - run:
           name: Test
           command: bundle exec rake test_ci
-      - save_cache:
-          key: docs-rubygems-v1-{{ checksum "Gemfile.lock" }}
+      - run:
+          name: Update folder name
+          command: mv _site _docs
+      - persist_to_workspace:
+          root: ./
           paths:
-            - vendor/bundle
+            - ./_docs
+
 
   # deploy_firebase:
   #   docker:
