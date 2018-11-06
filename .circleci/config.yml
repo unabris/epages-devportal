@@ -105,10 +105,9 @@ jobs:
       - run:
           name: Define environment
           command: |
-            if [ $CIRCLE_BRANCH=="master" ]
-            then
+            if [ $CIRCLE_BRANCH=="master" ] then
               export ENVIRONMENT="default"
-            elif [ $CIRCLE_BRANCH=="develop" ]
+            elif [ $CIRCLE_BRANCH=="develop" ] then
               export ENVIRONMENT="staging"
             fi
       - run:
