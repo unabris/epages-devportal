@@ -88,6 +88,12 @@ jobs:
       - run:
           name: Combine projects
           command: rsync -abviuzP _docs/ _site/
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - ./_site
+            - ./.firebaserc
+            - ./firebase.json
 
   deploy_firebase:
     docker:
