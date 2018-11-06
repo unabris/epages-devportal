@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "epages-devportal"
+    "default": "epages-devportal",
+    "staging": "epages-devportal-staging-b6187"
   }
 }
