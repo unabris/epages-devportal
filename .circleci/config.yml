@@ -103,8 +103,14 @@ jobs:
       - attach_workspace:
           at: ./
       - run:
-          name: Define
-          command: export ENVIRONMENT=if [ $CIRCLE_BRANCH=="master" ] then "default" else "staging" fi
+          name: Define environment
+          command: |
+            if [ $CIRCLE_BRANCH=="master" ]
+            then
+              export ENVIRONMENT="default"
+            elif [ $CIRCLE_BRANCH=="develop" ]
+              export ENVIRONMENT="staging"
+            fi
       - run:
           name: Install Firebase tools
           command: npm install --save-dev firebase-tools
