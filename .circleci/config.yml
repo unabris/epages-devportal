@@ -117,7 +117,7 @@ jobs:
           command: npm install --save-dev firebase-tools
       - run:
           name: Deploy to Firebase
-          command: ./node_modules/.bin/firebase deploy --token=$FIREBASE_TOKEN --non-interactive -P $ENVIRONMENT
+          command: ./node_modules/.bin/firebase deploy --project $ENVIRONMENT --token=$FIREBASE_TOKEN --non-interactive
 
 workflows:
   version: 2
