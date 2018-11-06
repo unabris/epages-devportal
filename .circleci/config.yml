@@ -105,20 +105,18 @@ jobs:
       - run:
           name: Define environment
           command: |
-            echo $CIRCLE_BRANCH
             if [ $CIRCLE_BRANCH = "master" ]
             then
               echo 'export ENVIRONMENT=default' >> $BASH_ENV
             else
               echo 'export ENVIRONMENT=staging' >> $BASH_ENV
             fi
-            echo $ENVIRONMENT
       - run:
           name: Install Firebase tools
           command: npm install --save-dev firebase-tools
       - run:
-          name: Deploy to Firebase epages-devportal-$ENVIRONMENT
-          command: echo $ENVIRONMENT
+          name: Deploy to Firebase
+          command: ./node_modules/.bin/firebase deploy --project $ENVIRONMENT --token=$FIREBASE_TOKEN --non-interactive
 
 workflows:
   version: 2
