@@ -108,8 +108,7 @@ jobs:
             if [ $CIRCLE_BRANCH=="master" ]
             then
               export ENVIRONMENT="default"
-            elif [ $CIRCLE_BRANCH=="develop" ]
-            then
+            else
               export ENVIRONMENT="staging"
             fi
       - run:
