@@ -104,7 +104,7 @@ jobs:
           at: ./
       - run:
           name: Define
-          command: export ENVIRONMENT=if [$CIRCLE_BRANCH=="master"] then "default" else "staging" fi
+          command: export ENVIRONMENT=if [ $CIRCLE_BRANCH=="master" ] then "default" else "staging" fi
       - run:
           name: Install Firebase tools
           command: npm install --save-dev firebase-tools
