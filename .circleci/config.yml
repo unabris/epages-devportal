@@ -106,7 +106,7 @@ jobs:
           name: Define environment
           command: |
             echo $CIRCLE_BRANCH
-            if [ $CIRCLE_BRANCH=="master" ]
+            if [ $CIRCLE_BRANCH = "master" ]
             then
               export ENVIRONMENT="default"
             else
