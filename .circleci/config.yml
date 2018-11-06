@@ -1,18 +1,19 @@
 version: 2
 
-devportal_defaults: &devportal_defaults
+defaults: &defaults
   working_directory: ~/repo
-  docker:
-    - image: circleci/ruby:2.4.2
   environment:
     BUNDLE_PATH: ~/repo/vendor/bundle
 
+devportal_defaults: &devportal_defaults
+  <<: *defaults
+  docker:
+    - image: circleci/ruby:2.4.2
+
 docs_defaults: &docs_defaults
-  working_directory: ~/repo
+  <<: *defaults
   docker:
     - image: circleci/ruby:2.4.1
-  environment:
-    BUNDLE_PATH: ~/repo/vendor/bundle
 
 jobs:
   build_test_devportal:
@@ -102,11 +103,14 @@ jobs:
       - attach_workspace:
           at: ./
       - run:
+          name: Define
+          command: export ENVIRONMENT=if [$CIRCLE_BRANCH=="master"] then "default" else "staging" fi
+      - run:
           name: Install Firebase tools
           command: npm install --save-dev firebase-tools
       - run:
           name: Deploy to Firebase
-          command: ./node_modules/.bin/firebase deploy --token=$FIREBASE_TOKEN --non-interactive -P staging
+          command: ./node_modules/.bin/firebase deploy --token=$FIREBASE_TOKEN --non-interactive -P $ENVIRONMENT
 
 workflows:
   version: 2
