@@ -105,6 +105,7 @@ jobs:
       - run:
           name: Define environment
           command: |
+            echo $CIRCLE_BRANCH
             if [ $CIRCLE_BRANCH=="master" ]
             then
               export ENVIRONMENT="default"
@@ -112,14 +113,12 @@ jobs:
               export ENVIRONMENT="staging"
             fi
             echo $ENVIRONMENT
-      - run:
-          name: Install Firebase tools
-          command: npm install --save-dev firebase-tools
-      - run:
-          name: Deploy to Firebase
-          command: |
-            echo $ENVIRONMENT
-            ./node_modules/.bin/firebase deploy --project $ENVIRONMENT --token=$FIREBASE_TOKEN --non-interactive
+      # - run:
+      #     name: Install Firebase tools
+      #     command: npm install --save-dev firebase-tools
+      # - run:
+      #     name: Deploy to Firebase
+      #     command: ./node_modules/.bin/firebase deploy --project $ENVIRONMENT --token=$FIREBASE_TOKEN --non-interactive
 
 workflows:
   version: 2
