@@ -108,9 +108,9 @@ jobs:
             echo $CIRCLE_BRANCH
             if [ $CIRCLE_BRANCH = "master" ]
             then
-              export ENVIRONMENT="default"
+              echo 'export ENVIRONMENT=default' >> $BASH_ENV
             else
-              export ENVIRONMENT="staging"
+              echo 'export ENVIRONMENT=staging' >> $BASH_ENV
             fi
             echo $ENVIRONMENT
       - run:
