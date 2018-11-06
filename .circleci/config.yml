@@ -111,12 +111,15 @@ jobs:
             else
               export ENVIRONMENT="staging"
             fi
+            echo $ENVIRONMENT
       - run:
           name: Install Firebase tools
           command: npm install --save-dev firebase-tools
       - run:
           name: Deploy to Firebase
-          command: ./node_modules/.bin/firebase deploy --project $ENVIRONMENT --token=$FIREBASE_TOKEN --non-interactive
+          command: |
+            echo $ENVIRONMENT
+            ./node_modules/.bin/firebase deploy --project $ENVIRONMENT --token=$FIREBASE_TOKEN --non-interactive
 
 workflows:
   version: 2
